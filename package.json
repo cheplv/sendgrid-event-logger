@@ -16,7 +16,7 @@
   "dependencies": {
     "async": "^2.0.0",
     "basicauth-middleware": "^2.0.0",
-    "elasticsearch": "~11.0.1",
+    "elasticsearch": "^11.0.1",
     "express": "~4.14.0",
     "https": "^1.0.0"
   },
