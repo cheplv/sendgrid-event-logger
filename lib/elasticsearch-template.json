@@ -1,92 +1,89 @@
 {
-	"template": "mail-*",
-	"settings": {
-		"number_of_shards": 1,
-		"number_of_replicas": 0,
-		"index": {
-			"analysis": {
-				"tokenizer": {
-					"email_domain_tokenizer": {
-						"type": "pattern",
-						"pattern": "^.+@",
-						"group": -1
-					}
-				},
-				"analyzer": {
-					"email_domain_analyzer": {
-						"type": "custom",
-						"tokenizer": "email_domain_tokenizer"
-					}
-				}
-			}
-		}
-	},
-	"mappings": {
-		"log": {
-			"dynamic_templates" : [
-				{
-					"string_fields" : {
-						"match" : "*",
-						"match_mapping_type" : "string",
-						"mapping" : {
-							"type" : "text",
-							"index" : "true",
-							"omit_norms" : true,
-							"fields" : {
-								"raw" : {
-									"type": "keyword",
-									"index" : "true"
-								}
-							}
-						}
-					}
-				}
-			],
-			"properties": {
-				"email": {
-					"type" : "text",
-					"index" : "true",
-					"omit_norms" : true,
-					"fields" : {
-						"raw" : {
-							"type": "keyword",
-							"index" : "true"
-						},
-						"domain" : {
-							"type": "text",
-							"index": "true",
-							"analyzer": "email_domain_analyzer"
-						}
-					}
-				},
-				"timestamp": {
-					"type": "date",
-					"format": "epoch_second"
-				},
-				"date": {
-					"type": "date",
-					"format": "yyyy.MM.dd"
-				},
-				"event": {
-					"type": "text",
-					"index": "true"
-				},
-				"ip": {
-					"type": "ip",
-					"index": "true"
-				},
-				"sg_event_id": {
-					"type": "keyword",
-					"index": "true"
-				},
-				"sg_message_id": {
-					"type": "keyword",
-					"index": "true"
-				}
-			}
-		}
-	},
-	"aliases" : {
-		"mail": {}
-	}
+  "index_patterns": [
+    "mail-*"
+  ],
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "index": {
+      "analysis": {
+        "tokenizer": {
+          "email_domain_tokenizer": {
+            "type": "pattern",
+            "pattern": "^.+@",
+            "group": -1
+          }
+        },
+        "analyzer": {
+          "email_domain_analyzer": {
+            "type": "custom",
+            "tokenizer": "email_domain_tokenizer"
+          }
+        }
+      }
+    }
+  },
+  "aliases": {
+    "mail": {}
+  },
+  "mappings": {
+    "_source": {
+      "enabled": true,
+      "includes": [],
+      "excludes": []
+    },
+    "_meta": {},
+    "_routing": {
+      "required": false
+    },
+    "dynamic": true,
+    "numeric_detection": false,
+    "date_detection": true,
+    "dynamic_date_formats": [
+      "strict_date_optional_time",
+      "yyyy/MM/dd HH:mm:ss Z||yyyy/MM/dd Z"
+    ],
+    "dynamic_templates": [
+      {
+        "string_fields": {
+          "match": "*",
+          "match_mapping_type": "string",
+          "mapping": {
+            "type": "text",
+            "index": "true",
+            "omit_norms": true,
+            "fields": {
+              "raw": {
+                "type": "keyword",
+                "index": "true"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "properties": {
+      "date": {
+        "type": "date"
+      },
+      "email": {
+        "type": "text"
+      },
+      "event": {
+        "type": "text"
+      },
+      "ip": {
+        "type": "ip"
+      },
+      "sg_event_id": {
+        "type": "keyword"
+      },
+      "sg_message_id": {
+        "type": "keyword"
+      },
+      "timestamp": {
+        "type": "date"
+      }
+    }
+  }
 }
